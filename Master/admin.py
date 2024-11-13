@@ -7,8 +7,10 @@ from django.db.models import F
 # Import the necessary models
 
 from .models import Dosen, Mahasiswa, MataKuliah
+from unfold.admin import ModelAdmin
 
-class DosenAdmin(admin.ModelAdmin):
+@admin.register(Dosen)
+class DosenAdmin(ModelAdmin):
     list_display = ["id", "nama", "email", "prodi"]
     ordering = ["nama"]
     search_fields = ["nama", "email", "prodi"]
@@ -28,7 +30,8 @@ class DosenAdmin(admin.ModelAdmin):
 
 
 
-class MataKuliahAdmin(admin.ModelAdmin):
+@admin.register(MataKuliah)
+class MataKuliahAdmin(ModelAdmin):
     list_display = ["nama_matakuliah", "sks", "dosen_pengampu"]
     list_filter = ["sks"]
     search_fields = ["nama_matakuliah", "sks", "dosen_pengampu"]
@@ -47,7 +50,8 @@ class MataKuliahAdmin(admin.ModelAdmin):
         queryset.update(sks=4)
     make_sks_4.short_description = "Set SKS to 4"
 
-class MahasiswaAdmin(admin.ModelAdmin):
+@admin.register(Mahasiswa)
+class MahasiswaAdmin(ModelAdmin):
     list_display = ["email", "nomor_telepon", "nim", "jenis_kelamin", "prodi", "terlambat", "tidak_hadir", "semester"]  # Ensure these fields exist in the model
     list_filter = ["prodi", "semester"]
     search_fields = ["email", "nomor_telepon", "nim", "prodi", "terlambat", "tidak_hadir", "semester"]
@@ -89,6 +93,6 @@ class MahasiswaAdmin(admin.ModelAdmin):
 
 
 # Register models with the admin
-admin.site.register(Dosen, DosenAdmin)
-admin.site.register(Mahasiswa, MahasiswaAdmin)
-admin.site.register(MataKuliah, MataKuliahAdmin)
+# admin.site.register(Dosen, DosenAdmin)
+# admin.site.register(Mahasiswa, MahasiswaAdmin)
+# admin.site.register(MataKuliah, MataKuliahAdmin)

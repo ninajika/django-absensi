@@ -1,9 +1,11 @@
 from django.contrib import admin
 
 from KRS.models import KRS
+from unfold.admin import ModelAdmin
 
 # Register your models here.
-class KRSAdmin(admin.ModelAdmin):
+@admin.register(KRS)
+class KRSAdmin(ModelAdmin):
     list_display = ["id_mhs", "id_matkul", "wajib"]
     list_filter = ["wajib"]
     search_fields = ["id_mhs__nama", "id_matkul__nama_matakuliah"]
@@ -19,4 +21,4 @@ class KRSAdmin(admin.ModelAdmin):
         queryset.update(wajib="Tidak")
     make_optional.short_description = "Set as Optional (Tidak)"
 
-admin.site.register(KRS, KRSAdmin)
+# admin.site.register(KRS, KRSAdmin)

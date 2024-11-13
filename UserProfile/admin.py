@@ -1,10 +1,10 @@
 from django.contrib import admin
 
 from UserProfile.models import UserProfile
-
+from unfold.admin import ModelAdmin
 # Register your models here.
-
-class UserProfileAdmin(admin.ModelAdmin):
+@admin.register(UserProfile)
+class UserProfileAdmin(ModelAdmin):
     list_display = ["user", "is_dosen"]
     list_filter = ["is_dosen"]
     search_fields = ["user__username", "is_dosen"]
@@ -19,4 +19,4 @@ class UserProfileAdmin(admin.ModelAdmin):
     remove_dosen.short_description = "Remove Dosen status from selected users"
 
 
-admin.site.register(UserProfile, UserProfileAdmin)
+# admin.site.register(UserProfile, UserProfileAdmin)

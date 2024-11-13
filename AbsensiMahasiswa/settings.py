@@ -11,7 +11,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from django.templatetags.static import static
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 
+ 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,6 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'unfold',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -129,3 +134,98 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+UNFOLD = {
+    "SITE_TITLE": "Sistem Absensi Mahasiswa",
+    "SITE_HEADER": "SIAM",
+    # "SITE_ICON": {
+    #     "light": lambda request: static("logo_poltek.png"),  # light mode
+    #     "dark": lambda request: static("logo_poltek.png"),  # dark mode
+    # }
+    "SITE_SYMBOL": "school",  # symbol from icon set
+    "EXTENSIONS": {
+        "modeltranslation": {
+            "flags": {
+                "en": "🇬🇧",
+                "fr": "🇫🇷",
+                "nl": "🇧🇪",
+            },
+        },
+    },
+    "SIDEBAR": {
+        "show_search": False,  # Search in applications and models names
+        "show_all_applications": False,  # Dropdown with all applications and models
+        "navigation": [
+            {
+                "title": _("Navigation"),
+                "separator": True,  # Top border
+                "collapsible": True,  # Collapsible group of links
+                "items": [
+                    {
+                        "title": _("Dashboard"),
+                        "icon": "dashboard",  # Supported icon set: https://fonts.google.com/icons
+                        "link": reverse_lazy("admin:index"),
+                        "permission": lambda request: request.user.is_superuser,
+                        "group": "admin",
+                    },
+                ],
+            },
+            {
+                "title": _("Master Data"),
+                "separator": True,  # Top border
+                "collapsible": True,  # Collapsible group of links
+                "items": [
+                    {
+                        "title": _("Mahasiswa"),
+                        "icon": "person",
+                        "link": reverse_lazy("admin:Master_mahasiswa_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
+                        "group": "master",
+                    },
+                    {
+                        "title": _("Dosen"),
+                        "icon": "business",
+                        "link": reverse_lazy("admin:Master_dosen_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
+                        "group": "master",
+                    },
+                    {
+                        "title": _("Mata Kuliah"),
+                        "icon": "book",
+                        "link": reverse_lazy("admin:Master_matakuliah_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
+                        "group": "master",
+                    },
+                ],
+            },
+            {
+                "title": _("Data Histori Kehadiran"),
+                "separator": True,  # Top border
+                "collapsible": True,  # Collapsible group of links
+                "items": [
+                    {
+                        "title": _("Histori Kehadiran"),
+                        "icon": "history_edu",
+                        "link": reverse_lazy("admin:HistoriKehadiran_historikehadiran_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
+                        "group": "historikehadiran",
+                    },
+                ],
+            },
+            {
+                "title": _("Data KRS"),
+                "separator": True,  # Top border
+                "collapsible": True,  # Collapsible group of links
+                "items": [
+                    {
+                        "title": _("KRS"),
+                        "icon": "list_alt",
+                        "link": reverse_lazy("admin:KRS_krs_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
+                        "group": "krs",
+                    },
+                ],
+            },
+        ],
+    },
+}

@@ -1,9 +1,11 @@
 from django.contrib import admin
 
 from HistoriKehadiran.models import HistoriKehadiran
+from unfold.admin import ModelAdmin
 
 # Register your models here.
-class HistoriKehadiranAdmin(admin.ModelAdmin):
+@admin.register(HistoriKehadiran)
+class HistoriKehadiranAdmin(ModelAdmin):
     list_display = ["id_mhs", "tanggal", "status"]
     list_filter = ["tanggal", "status"]
     search_fields = ["id_mhs__nama", "tanggal", "status"]
@@ -28,4 +30,4 @@ class HistoriKehadiranAdmin(admin.ModelAdmin):
     make_hadir.short_description = "Mark selected as Hadir"
 
 
-admin.site.register(HistoriKehadiran, HistoriKehadiranAdmin)
+# admin.site.register(HistoriKehadiran, HistoriKehadiranAdmin)
